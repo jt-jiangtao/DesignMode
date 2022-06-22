@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>撤销</title>
+</head>
+<body>
+    <div id="ball" style="position: absolute;background-color: yellow;width: 50px;height: 50px"></div>
+    请输入小球移动后的位置:<input id="pos" />
+    <button id="moveBtn">开始移动</button>
+    <button id="cancelBtn">撤销</button>
+    <script>
+        let ball = document.querySelector('#ball')
+        let pos = document.querySelector('#pos')
+        let moveBtn = document.querySelector('#moveBtn')
+        let cancelBtn = document.querySelector('#cancelBtn')
+        let MoveCommand = function (receiver, pos) {
+            return {
+                execute: function () {
+                    // 智能模式
+                    receiver.style.transform = `translateY(${pos}px)`
+                },
+                undo: function () {
+
+                }
+            }
+        }
+        let moveCommand = null
+        moveBtn.onclick = function () {
+            moveCommand = MoveCommand(ball, pos.value)
+            moveCommand.execute()
+        }
+        cancelBtn.onclick = function () {
+            moveCommand.undo()
+        }
+    </script>
+</body>
+</html>

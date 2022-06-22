@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>回调</title>
+</head>
+<body>
+<button id="button1">button1</button>
+<button id="button2">button2</button>
+<button id="button3">button3</button>
+<script>
+    // 具体的执行者
+    let MenuBar = {
+        refresh: function () {
+            console.log("MenuBar-refresh")
+        }
+    }
+    let SubMenu = {
+        add: function () {
+            console.log("SubMenu-add")
+        },
+        del: function () {
+            console.log("SubMenu-del")
+        }
+    }
+    // 抽象命令(无)
+    // 命令实现
+    let RefreshMenuBarCommand = function (receiver) {
+        return {
+            execute: function (){
+                receiver.refresh()
+            }
+        }
+    }
+
+    let AddSubMenuCommand = function (receiver) {
+        return {
+            execute: function (){
+                receiver.add()
+            }
+        }
+    }
+
+    let DelSubMenuCommand = function (receiver) {
+        return {
+            execute: function (){
+                receiver.del()
+            }
+        }
+    }
+
+    // client
+    let button1 = document.querySelector("#button1")
+    let button2 = document.querySelector("#button2")
+    let button3 = document.querySelector("#button3")
+
+    // client<=>command
+    let setCommand = function (button, command) {
+        button.onclick = function () {
+            command.execute()
+        }
+    }
+    setCommand(button1, RefreshMenuBarCommand(MenuBar))
+    setCommand(button2, AddSubMenuCommand(SubMenu))
+    setCommand(button3, DelSubMenuCommand(SubMenu))
+</script>
+</body>
+</html>
